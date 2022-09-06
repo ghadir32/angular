@@ -1,0 +1,56 @@
+<marquee class="marque">{{ nam }}  History</marquee>
+
+<br><br>
+<h3>Choose item</h3>
+
+<select class="custom-select productOptions" ng-model="getvalue"  ng-change="CalculateTotalPrice()" >
+    <option default selected disabled>Select product</option>
+    <option ng-repeat="x in selProduct" value="{{x.id}}" ng-model="itmId">{{x.name}}</option>
+  </select>
+
+  <span>Quantity:</span>
+  <input type="number" class="nb_input" ng-model="quantity" name="quantity" min="1" ng-init="quantity=1.00" ng-change="CalculateTotalPrice()">
+
+  <!-- <div style="float:right;">  -->
+     <h4 style="display:inline-block;">Total Price: </h4>
+    <input disabled ng-model="TotalPrice">  
+  <!-- </div> -->
+
+  <button type="button" class="btn btn-secondary" ng-click="AddNewSold()"  style="float:right;">Add</button>
+
+  <p style="display:none;" ng-model="dateAndTime">{{ CurrentDate | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+
+
+
+
+
+<br><br>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Unit Price</th>
+        <th scope="col">Total Price</th>
+        <th scope="col">Date  and  Time</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    
+  
+        <tr ng-repeat="p in products | filter : searchVal">
+          <!-- <alll-products product-Data = "p"  ng-repeat="p  in products"></alll-products> -->
+          <td> {{ p.s_id }}</td>
+          <td> {{ p.name }}</td>  
+          <td> {{ p.sold_quantity }}</td>
+          <td>  {{ p.price }} </td>
+          <td> {{ p.total }}</td> 
+          <td> {{ p.dateAndTime }}</td> 
+        </tr>
+      
+    
+
+    </tbody>
+  </table>  
