@@ -29,9 +29,10 @@
 
     $db= new DAL();
 
-    $rows= $db->ExecuteQuery($sql);
+    $id= $db->ExecuteQuery($sql);
+    $addedItem = $this->getProduct($id);
 
-    return $rows;	
+    return $addedItem;	
 }
 
   

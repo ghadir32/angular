@@ -36,3 +36,8 @@
     border-color: gray;
     margin-left: 1%;
 }
+
+/* change the arrow to a pointer in all ng-click events */
+[ng-click] {
+    cursor: pointer;
+}

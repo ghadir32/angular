@@ -1,108 +1,129 @@
+<marquee class="marque"> Phone And More products</marquee>
+<br><br>
+<h2 style="display:inline-block;"> Stock: {{ name }}</h2>
 
-            <marquee class="marque"> Phone And More products</marquee>
-            <br><br>
-            <h2 style="display:inline-block;"> Stock: {{ name }}</h2>
+<form class="form-inline my-2 my-lg-0 searchFrom">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" ng-model="searchVal">
+    <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="search()" >Search</button> -->
+</form>
 
-     <form class="form-inline my-2 my-lg-0 searchFrom">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" ng-model="searchVal">
-      <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="search()" >Search</button> -->
-    </form> 
-
-  <button type="button" class="btn btn-dark addItem"    ng-click="add()" data-toggle="modal" data-target="#exampleModal">Add Item</button>
+<button type="button" class="btn btn-dark addItem" ng-click="add()" data-toggle="modal" data-target="#exampleModal">Add
+    Item</button>
 
 
-     <table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Cost</th>
-        <th scope="col">Price</th>
-        <th scope="col">Note</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
+<table class="table table-bordered table-striped text-center table-sm">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Price</th>
+            <th scope="col">Note</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
 
-      </tr>
+        </tr>
     </thead>
     <tbody>
-    
-  
         <tr ng-repeat="p in products | filter : searchVal">
-          <!-- <alll-products product-Data = "p"  ng-repeat="p  in products"></alll-products> -->
-          <td> {{ p.id }}</td>
-          <td> {{ p.name }}</td>  
-          <td> {{ p.quantity }}</td>
-          <td> {{ p.cost }} </td>
-          <td> {{ p.price }}</td> 
-          <td> {{ p.note }}</td> 
-         <td><i class="fa-solid fa-pen edit" id="{{ p.id }}"   ng-click="edit($event)"   data-toggle="modal" data-target="#exampleModal"></i>  </td>
-         <td>  <i class="fa-solid fa-trash-can" ng-click="delItem(p.id,$index)"  ng-confirm-click="Would you like to delete?"></i>  </td> 
+            <td> {{ p.id }}</td>
+            <td> {{ p.name }}</td>
+            <td> {{ p.quantity }}</td>
+
+            <!-- you can add strings before or after '{{}}', it is only in view and won't affect  -->
+            <td> {{ p.cost }} $</td>
+            <td> {{ p.price }} $</td>
+
+            <!-- for better view, we use javaScript default values if no notes are retrieved -->
+            <td> {{ p.note || ' --- ' }}</td>
+
+            <!-- always use ng-click inside <td> not <i> tag, to make the whole <td> element clickable -->
+            <!-- you can send the entire element just by adding the chosen name in ng-repeat, ex: edit(p) -->
+            <!-- it is better to open 'add' and 'edit' modals from JS not from html, will be implemented later on -->
+            <!-- I added a CSS class for any element with [ng-click] attribute to make the pointer more noticable as a click event, this improves user experience -->
+            <td class="btn-outline-info" ng-click="edit(p)" data-toggle="modal" data-target="#exampleModal"><i
+                    class="fa-solid fa-pen edit"></i> </td>
+
+
+
+            <!-- good idea for using custom directive to manage notifications(ng-confirm-click), but there is an easier way, will be implemented later -->
+
+            <!-- sending $index only works if you dont use sorting or filtering, this is the index of elements in view only, so for example if you filterd results and showed only 1 record, $index will be 0 in this case, and when you splice it from records, it won't affect the actual record, it will remove the first indexed element in the actual array of objects instead, although it has not been deleted from database -->
+
+            <!-- instead, we only send ID, and using JavaScript built-in method, we find the correct index of the selected item regardless of sorting or filtering -->
+            <td class="btn-outline-danger" ng-click="delItem(p.id)" ng-confirm-click="Would you like to delete?">
+                <i class="fa-solid fa-trash-alt"></i> </td>
         </tr>
-      
-    
+
+
 
     </tbody>
-  </table>  
+</table>
 
-  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> -->
-  <!-- <div class="alert alert-danger delAlert" role="alert">
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> -->
+<!-- <div class="alert alert-danger delAlert" role="alert">
     Item Deleted
   </div> -->
 
 
 
 <!-- modalll -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Item</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <!-- no need to use hidden ID here, we already have it in controller and ng-repeat instances -->
+                    <!-- <input type="hidden" ng-model="pid"> -->
+                    <div class=" form-group">
+                        <label for="recipient-name" class="col-form-label">Name:</label>
+                        <input ng-required="required" type="text" class="form-control" id="Pname"
+                            ng-model="modalData.name">
+                        <div ng-show="pname.length==0" class="text-danger">name is required</div>
+                    </div>
+
+                    <div class=" form-group">
+                        <label for="message-text" class="col-form-label">Quantity:</label>
+                        <input type="number" min="0" step="1" class="form-control" id="PQuantity"
+                            ng-model="modalData.quantity">
+                        <div ng-show="Pquantity.length==0" class="text-danger">quantity is required</div>
+                    </div>
+
+                    <div class=" form-group">
+                        <label for="message-text" class="col-form-label">Cost:</label>
+                        <input type="number" class="form-control" id="PCost" ng-model="modalData.cost">
+                        <div ng-show="Pcost.length==0" class="text-danger">cost is required</div>
+                    </div>
+
+                    <div class=" form-group">
+                        <label for="message-text" class="col-form-label">Price:</label>
+                        <input type="number" class="form-control" id="Pprice" ng-model="modalData.price">
+                        <div ng-show="Pprice.length==0" class="text-danger">price is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Notes:</label>
+                        <input type="text" class="form-control" id="PNotes" ng-model="modalData.note">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-danger"  data-dismiss="modal" ng-show="ShowDel" ng-click="delItem($event)">Delete</button> -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    ng-click="AddOrEdit()">{{btnVal}}</button>
+
+            </div>
         </div>
-        <div class="modal-body">
-          <form>
-            <input type="hidden" ng-model="pid">
-            <div class="form-group">
-              <label for="recipient-name" class="col-form-label">Name:</label>
-              <input ng-required="required" type="text" class="form-control" id="Pname" ng-model="pname">
-              <div ng-show="pname.length==0" class="text-danger">name is required</div>
-            </div>
-
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Quantity:</label>
-              <input type="number" min="0" step="1" class="form-control" id="PQuantity" ng-model="Pquantity">
-              <div ng-show="Pquantity.length==0" class="text-danger">quantity is required</div>
-            </div>
-
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Cost:</label>
-              <input type="number" class="form-control" id="PCost" ng-model="Pcost">
-              <div ng-show="Pcost.length==0" class="text-danger">cost is required</div>
-            </div>
-
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Price:</label>
-              <input type="number" class="form-control" id="Pprice" ng-model="Pprice">
-              <div ng-show="Pprice.length==0" class="text-danger">price is required</div>
-            </div>
-
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Notes:</label>
-              <input type="text" class="form-control" id="PNotes" ng-model="Pnotes">
-            </div>
-
-          </form>
-        </div>
-        <div class="modal-footer">
-
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <!-- <button type="button" class="btn btn-danger"  data-dismiss="modal" ng-show="ShowDel" ng-click="delItem($event)">Delete</button> -->
-          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="AddOrEdit()">{{btnVal}}</button>
-
-        </div>
-      </div>
     </div>
-  </div>
+</div>
