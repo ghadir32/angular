@@ -18,7 +18,7 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
    //get all products from the database
     $http({
         method: 'get', 
-        url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=1'
+        url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=1'
       }).then(function (response){
 
         console.log(response.data, 'res');
@@ -35,7 +35,7 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
          //get specific product from the database
         $http({
             method: 'GET', 
-            url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=2',
+            url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=2',
             params: {p_id: event.target.id} 
 
         }).then(function (response){
@@ -64,7 +64,7 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
         if($scope.btnVal == "Add item"){
 
                 $http({
-                    url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=3',
+                    url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=3',
                     method: "POST",
                     params: {
                             name: $scope.pname,
@@ -75,7 +75,18 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
                     }, 
                     })
                 .then(function(response) {
-                        // success
+                        // success: add row to table
+                            // alert("function reached");
+                            $scope.products.push({
+                                'id' : $scope.getvalue,
+                                'name':  $scope.pname,
+                                'quantity': $scope.Pquantity ,
+                                'cost':  $scope.Pcost,
+                                'price': $scope.Pprice,
+                                'note': $scope.Pnotes 
+                    
+                            }); 
+
                 }, 
                 function(response) { 
                         // failed
@@ -84,7 +95,7 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
         }else if($scope.btnVal == "Save edit"){
 
             $http({
-                url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=5',
+                url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=5',
                 method: "POST",
                 params: {
                         id: $scope.pid,
@@ -108,21 +119,11 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
 
 
 
-    $scope.removeRow = function () {
-        alert("hhi");
-        //Find the record using Index from Array.
-        // var name = $scope.employees[index].employee_name;
-        // if ($window.confirm("Do you want to delete: " + name)) {
-            //Remove the item from Array using Index.
-            $scope.products.data.splice($scope.pid,1);
-        // }
-    }
-
-    
-    $scope.delItem = function(idd){
+    //to delete a row
+    $scope.delItem = function(idd, index){
         
         $http({
-            url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=4',
+            url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=4',
             method: "POST",
             params: {
                     id: idd
@@ -130,7 +131,9 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
             })
         .then(function(response) {
                 // success
-                // $scope.removeRow();
+            // alert(index);
+             $scope.products.splice(index, 1);
+                
                 
         }, 
         function(response) { 
@@ -149,7 +152,6 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
         $scope.Pprice="";
         $scope.Pnotes = "";
         $scope.ShowDel = false;
-
     }
 
 
@@ -166,13 +168,15 @@ phoneandmore.controller('sellController', ['$scope', '$http', function($scope, $
  
     $scope.dateAndTime=new Date();
    
+ 
 
       //get sold from the database
       $http({
         method: 'get', 
-        url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=8'
+        url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=8'
       }).then(function (response){
         $scope.products = response.data;
+        console.log($scope.products);
 
     },function (error){
         console.log(error, 'can not get data.');
@@ -183,7 +187,7 @@ phoneandmore.controller('sellController', ['$scope', '$http', function($scope, $
      //get all products from the database
      $http({
         method: 'get', 
-        url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=1'
+        url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=1'
       }).then(function (response){
 
         console.log(response.data, 'res');
@@ -195,11 +199,12 @@ phoneandmore.controller('sellController', ['$scope', '$http', function($scope, $
         console.log(error, 'can not get data.');
     });
 
+    $scope.unitPrice;
 
     $scope.CalculateTotalPrice = function(){
         // alert("hi");
         $http({
-            url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=6',
+            url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=6',
             method: "POST",
             params: {
                     id: $scope.getvalue  
@@ -209,6 +214,7 @@ phoneandmore.controller('sellController', ['$scope', '$http', function($scope, $
                 // success
                 // $scope.removeRow();
                 $scope.pricePerItem = parseFloat(response.data[0].price);
+                // $scope.unitPrice = 
                 $scope.TotalPrice = Number($scope.pricePerItem || 0) * Number($scope.quantity || 0) + '$';
                 
         }, 
@@ -219,7 +225,7 @@ phoneandmore.controller('sellController', ['$scope', '$http', function($scope, $
 
     $scope.AddNewSold = function(){
         $http({
-            url: 'http://localhost/angular%20training%201/ws/ws_stocks.php?op=7',
+            url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=7',
             method: "POST",
             params: {
                     id: $scope.getvalue,
@@ -229,13 +235,35 @@ phoneandmore.controller('sellController', ['$scope', '$http', function($scope, $
             },
         })
         .then(function(response) {
-            // success         
+            // success        
+           
+            $scope.addRow = function () {
+
+                
+                // alert("function reached");
+                $scope.products.push({
+                    's_id' : $scope.getvalue,
+                    'name': $scope.getvalue,
+                    'sold_quantity':$scope.quantity ,
+                    'price':$scope.pricePerItem ,
+                    'total': $scope.TotalPrice ,
+                    'dateAndTime': $scope.dateAndTime 
+        
+                });    
+            };
+
+            $scope.addRow(); 
             
         }, 
         function(response) { 
                 // failed
         });
     }
+
+
+    
+
+
 
 }]);
 
@@ -245,7 +273,7 @@ phoneandmore.directive("alllProducts", function(){
 
     return {
         restrict: 'AECM',
-        templateUrl : 'http://localhost/angular%20training%201/directives/p_direcive.html',
+        templateUrl : 'http://localhost/angularproject1/angular/directives/p_direcive.html',
         // replace: true,
         scope: {
             productData: "="

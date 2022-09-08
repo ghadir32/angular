@@ -37,7 +37,7 @@
           <td> {{ p.price }}</td> 
           <td> {{ p.note }}</td> 
          <td><i class="fa-solid fa-pen edit" id="{{ p.id }}"   ng-click="edit($event)"   data-toggle="modal" data-target="#exampleModal"></i>  </td>
-         <td>  <i class="fa-solid fa-trash-can" ng-click="delItem(p.id)"  ng-confirm-click="Would you like to delete?"></i>  </td> 
+         <td>  <i class="fa-solid fa-trash-can" ng-click="delItem(p.id,$index)"  ng-confirm-click="Would you like to delete?"></i>  </td> 
         </tr>
       
     

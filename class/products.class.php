@@ -36,7 +36,7 @@
 
   
   public function DelProduct($id){
-    $sql="DELETE FROM stocks where id=$id";
+    $sql="update stocks set status=0 where  id=$id";
 
     $db= new DAL();
 

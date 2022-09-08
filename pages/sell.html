@@ -16,7 +16,7 @@
     <input disabled ng-model="TotalPrice">  
   <!-- </div> -->
 
-  <button type="button" class="btn btn-secondary" ng-click="AddNewSold()"  style="float:right;">Add</button>
+  <button type="button" class="btn btn-secondary" ng-click="AddNewSold()"  ng-click='addRow()' style="float:right;">Add</button>
 
   <p style="display:none;" ng-model="dateAndTime">{{ CurrentDate | date:'dd/MM/yyyy HH:mm:ss'}}</p>
 
@@ -25,6 +25,8 @@
 
 
 <br><br>
+
+
   <table class="table">
     <thead class="thead-light">
       <tr>
