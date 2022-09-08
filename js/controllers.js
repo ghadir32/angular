@@ -29,10 +29,10 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
     });
     
 
-
+    //editing a row
     $scope.edit = function(event){
         // alert(event.target.id);
-         //get specific product from the database
+         //get specific product from the database to edit
         $http({
             method: 'GET', 
             url: 'http://localhost/angularproject1/angular/ws/ws_stocks.php?op=2',
@@ -119,7 +119,7 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function($scope,
 
 
 
-    //to delete a row
+    //to delete a row;       (bug)note:doesnt work for a newely added row without refresh due to missing id
     $scope.delItem = function(idd, index){
         
         $http({
