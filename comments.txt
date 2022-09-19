@@ -1,3 +1,11 @@
 1- use "container-fluid" class to benefit from the entire screen as much as possible, especially with tables.
 2- try to manage controllers in seperate files for better debugging and readability.
 3- put routing and main controller (if required) in index.js file.
+
+
+
+Q's:
+in SELL PAGE: 1- how to get selected option Text(name not value)? to send it to the newly added row.
+              2- why when adding a sold item, the "date" does'nt look correct until refreshing the page?
+              3- 
+

@@ -63,6 +63,7 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function ($scope
 
     //handling add/edit button 
     $scope.AddOrEdit = function () {
+
         if ($scope.btnVal == "Add item") {
             $http({
                     url: 'http://localhost/angular/ws/ws_stocks.php?op=3',
@@ -105,7 +106,7 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function ($scope
                     params: $scope.modalData,
                 })
                 .then(function () {
-                        // success
+                    // success
                     // replace product in array with the data was sent
                     $scope.products[index] = $scope.modalData; // notice: no need to use angular.copy() since binding values of object doesn't bind by reference
                     },
@@ -170,139 +171,140 @@ phoneandmore.controller('stocksController', ['$scope', '$http', function ($scope
 
 
 // sell page controllers     
-phoneandmore.controller('sellController', ['$scope', '$http', function ($scope, $http) {
-    $scope.nam = 'Selling';
-    $scope.CurrentDate = new Date();
+// phoneandmore.controller('sellController', ['$scope', '$http', function ($scope, $http) {
+//     $scope.nam = 'Selling';
+//     $scope.CurrentDate = new Date();
 
-    $scope.dateAndTime = new Date();
-
-
-
-    //get sold from the database
-    $http({
-        method: 'get',
-        url: 'http://localhost/angular/ws/ws_stocks.php?op=8'
-    }).then(function (response) {
-        $scope.products = response.data;
-        console.log($scope.products);
-
-    }, function (error) {
-        console.log(error, 'can not get data.');
-    });
+//     $scope.dateAndTime = new Date();
 
 
+//     $scope.products = [];
+//     $scope.selProduct = [];
 
-    //get all products from the database
-    $http({
-        method: 'get',
-        url: 'http://localhost/angular/ws/ws_stocks.php?op=1'
-    }).then(function (response) {
+//     //get sold from the database
+//     $http({
+//         method: 'get',
+//         url: 'http://localhost/angular/ws/ws_stocks.php?op=8'
+//     }).then(function (response) {
 
-        console.log(response.data, 'res');
-        $scope.selProduct = response.data;
-        $scope.quantity;
-        $scope.TotalPrice;
+//         angular.copy(response.data, $scope.products);
+//         // $scope.products = response.data;
+//         console.log($scope.products);
 
-    }, function (error) {
-        console.log(error, 'can not get data.');
-    });
-
-    $scope.unitPrice;
-
-    $scope.CalculateTotalPrice = function () {
-        // alert("hi");
-        $http({
-                url: 'http://localhost/angular/ws/ws_stocks.php?op=6',
-                method: "POST",
-                params: {
-                    id: $scope.getvalue
-                },
-            })
-            .then(function (response) {
-                    // success
-                    // $scope.removeRow();
-                    $scope.pricePerItem = parseFloat(response.data[0].price);
-                    // $scope.unitPrice = 
-                    $scope.TotalPrice = Number($scope.pricePerItem || 0) * Number($scope.quantity || 0) + '$';
-
-                },
-                function (response) {
-                    // failed
-                });
-    }
-
-    $scope.AddNewSold = function () {
-        $http({
-                url: 'http://localhost/angular/ws/ws_stocks.php?op=7',
-                method: "POST",
-                params: {
-                    id: $scope.getvalue,
-                    quantity: $scope.quantity,
-                    total: $scope.TotalPrice,
-                    dateAndtime: $scope.dateAndTime
-                },
-            })
-            .then(function (response) {
-                    // success        
-
-                    $scope.addRow = function () {
-
-
-                        // alert("function reached");
-                        $scope.products.push({
-                            's_id': $scope.getvalue,
-                            'name': $scope.getvalue,
-                            'sold_quantity': $scope.quantity,
-                            'price': $scope.pricePerItem,
-                            'total': $scope.TotalPrice,
-                            'dateAndTime': $scope.dateAndTime
-
-                        });
-                    };
-
-                    $scope.addRow();
-
-                },
-                function (response) {
-                    // failed
-                });
-    }
+//     }, function (error) {
+//         console.log(error, 'can not get data.');
+//     });
 
 
 
+//     //get all products from the database
+//     $http({
+//         method: 'get',
+//         url: 'http://localhost/angular/ws/ws_stocks.php?op=1'
+//     }).then(function (response) {
+
+//         console.log(response.data, 'res');
+//         $scope.selProduct = response.data;
+//         angular.copy(response.data, $scope.products);
+//         $scope.quantity;
+//         $scope.TotalPrice;
+
+//     }, function (error) {
+//         console.log(error, 'can not get data.');
+//     });
+
+//     $scope.unitPrice;
+
+//     $scope.CalculateTotalPrice = function () {
+//         // alert("hi");
+//         $http({
+//                 url: 'http://localhost/angular/ws/ws_stocks.php?op=6',
+//                 method: "POST",
+//                 params: {
+//                     id: $scope.getvalue
+//                 },
+//             })
+//             .then(function (response) {
+//                     // success
+//                     // $scope.removeRow();
+//                     $scope.pricePerItem = parseFloat(response.data[0].price);
+//                     // $scope.unitPrice = 
+//                     $scope.TotalPrice = Number($scope.pricePerItem || 0) * Number($scope.quantity || 0) + '$';
+
+//                 },
+//                 function (response) {
+//                     // failed
+//                 });
+//     }
+
+//     $scope.AddNewSold = function () {
+//         $http({
+//                 url: 'http://localhost/angular/ws/ws_stocks.php?op=7',
+//                 method: "POST",
+//                 params: {
+//                     id: $scope.getvalue,
+//                     quantity: $scope.quantity,
+//                     total: $scope.TotalPrice,
+//                     dateAndtime: $scope.dateAndTime
+//                 },
+//             })
+//             .then(function (response) {
+//                     // success        
+
+//                     $scope.addRow = function () {
 
 
+//                         // alert("function reached");
+//                         $scope.products.push({
+//                             's_id': $scope.getvalue,
+//                             'name': $scope.getvalue,
+//                             'sold_quantity': $scope.quantity,
+//                             'price': $scope.pricePerItem,
+//                             'total': $scope.TotalPrice,
+//                             'dateAndTime': $scope.dateAndTime
 
-}]);
+//                         });
+//                     };
+
+//                     $scope.addRow();
+
+//                 },
+//                 function (response) {
+//                     // failed
+//                 });
+//     }
 
 
-//my prdcts directive
-phoneandmore.directive("alllProducts", function () {
+// }]);
 
-    return {
-        restrict: 'AECM',
-        templateUrl: 'http://localhost/angular/directives/p_direcive.html',
-        // replace: true,
-        scope: {
-            productData: "="
-        }
-    }
-});
 
-phoneandmore.directive('ngConfirmClick', [
-    function () {
-        return {
-            priority: 1,
-            terminal: true,
-            link: function (scope, element, attr) {
-                var msg = attr.ngConfirmClick || "Are you sure?";
-                var clickAction = attr.ngClick;
-                element.bind('click', function (event) {
-                    if (window.confirm(msg)) {
-                        scope.$eval(clickAction)
-                    }
-                });
-            }
-        };
-    }
-])
+// //my prdcts directive
+// phoneandmore.directive("alllProducts", function () {
+
+//     return {
+//         restrict: 'AECM',
+//         templateUrl: 'http://localhost/angular/directives/p_direcive.html',
+//         // replace: true,
+//         scope: {
+//             productData: "="
+//         }
+//     }
+// });
+
+// phoneandmore.directive('ngConfirmClick', [
+//     function () {
+//         return {
+//             priority: 1,
+//             terminal: true,
+//             link: function (scope, element, attr) {
+//                 var msg = attr.ngConfirmClick || "Are you sure?";
+//                 var clickAction = attr.ngClick;
+//                 element.bind('click', function (event) {
+//                     if (window.confirm(msg)) {
+//                         scope.$eval(clickAction)
+//                     }
+//                 });
+//             }
+//         };
+//     }
+// ])

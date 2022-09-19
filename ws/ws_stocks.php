@@ -52,9 +52,9 @@
 
 				case 7:
 					$id = $_GET['id'];
-					$quantity= $_GET['quantity'];
+					$quantity= $_GET['sold_quantity'];
 					$total= $_GET['total'];
-					$dateAndTime= $_GET['dateAndtime'];
+					$dateAndTime= $_GET['dateAndTime'];
 					$result=$products->AddnewSold($id, $quantity, $total, $dateAndTime);
 					break;
 

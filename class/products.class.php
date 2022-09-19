@@ -29,7 +29,7 @@
 
     $db= new DAL();
 
-    $id= $db->ExecuteQuery($sql);
+    $id = $db->ExecuteQuery($sql);
     $addedItem = $this->getProduct($id);
 
     return $addedItem;	
@@ -74,10 +74,23 @@
 
     $db= new DAL();
 
-    $rows= $db->ExecuteQuery($sql);
+    $idd = $db->ExecuteQuery($sql);
+    $addedItem = $this->getnewsold($idd, $id);
+
+    // $rows= $db->ExecuteQuery($sql);
+
+    return $addedItem;	
+  }
+
+  public function getnewsold($idd, $id){
+    $sql="SELECT * FROM sold inner join stocks on sold.itm_id=stocks.id where sold.s_id=$idd and sold.itm_id=$id;";
+
+    $db= new DAL();
+
+    $rows= $db->getData($sql);
 
     return $rows;	
-  }
+}
 
   public function getsold(){
     $sql="SELECT * FROM sold inner join stocks on stocks.id= sold.itm_id;";

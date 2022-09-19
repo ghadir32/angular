@@ -5,20 +5,22 @@
 
 <select class="custom-select productOptions" ng-model="getvalue"  ng-change="CalculateTotalPrice()" >
     <option default selected disabled>Select product</option>
-    <option ng-repeat="x in selProduct" value="{{x.id}}" ng-model="itmId">{{x.name}}</option>
+    <!-- id  itmId -->
+    <option ng-repeat="x in selProduct" value="{{x.id}}" ng-model="modalData.id">{{x.name}}</option>
   </select>
 
   <span>Quantity:</span>
-  <input type="number" class="nb_input" ng-model="quantity" name="quantity" min="1" ng-init="quantity=1.00" ng-change="CalculateTotalPrice()">
+  <input type="number" class="nb_input" ng-model="modalData.sold_quantity" name="quantity" min="1" ng-init="quantity=1.00" ng-change="CalculateTotalPrice()">
 
   <!-- <div style="float:right;">  -->
      <h4 style="display:inline-block;">Total Price: </h4>
-    <input disabled ng-model="TotalPrice">  
+     <!-- total  TotalPrice -->
+    <input disabled ng-model="modalData.total">  
   <!-- </div> -->
 
   <button type="button" class="btn btn-secondary" ng-click="AddNewSold()"  ng-click='addRow()' style="float:right;">Add</button>
 
-  <p style="display:none;" ng-model="dateAndTime">{{ CurrentDate | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+  <p style="display:none;" ng-model="modalData.dateAndTime">{{ CurrentDate | date:'dd/MM/yyyy HH:mm:ss'}}</p>
 
 
 
@@ -43,11 +45,10 @@
     
   
         <tr ng-repeat="p in products | filter : searchVal">
-          <!-- <alll-products product-Data = "p"  ng-repeat="p  in products"></alll-products> -->
           <td> {{ p.s_id }}</td>
           <td> {{ p.name }}</td>  
           <td> {{ p.sold_quantity }}</td>
-          <td>  {{ p.price }} </td>
+          <td> {{ p.price }} </td>
           <td> {{ p.total }}</td> 
           <td> {{ p.dateAndTime }}</td> 
         </tr>
